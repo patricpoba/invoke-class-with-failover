@@ -3,15 +3,16 @@ The package allows a single class to respond to a request with fallback to other
 This is used to provide redundancy for critical components of a software system.
 
 
-## Example
-PROBLEM: Asuming you have the following classes which implement the same interface.
+# Example of Use Case
+**PROBLEM**: Asuming you have the following classes which implement the same interface.
 You may decide to use one class (eg Twilio) to send sms. 
 
 But what if Twilio Class fails?
-SOLUTION: You may want the another class to be called automatically to process the request.
+
+**SOLUTION**: You may want the another class to be called automatically to process the request.
 This can be used to add redundancy to critical components of sofware whose failure may be costly
 
-NOTE: if a class throws an exception, it is deemed to have failed to process the method call.
+**NOTE**: if a class throws an exception, it is deemed to have failed to process the method call.
 
 This is demostrated below.
 ```php
@@ -51,7 +52,6 @@ class Arkesel implements SmsDriver{
 
 The follow demonstrates how all the three classes can be used automatically
 ```php
-
 $results = (new CallClassMethodWithRedundacy('App\TwilioSms','userId', 'apiKey' )) 
         ->addRedundancyClasses(['App\NexmoSms', 'App\ArkeselSms'])
         ->callMethod('sendSms', 'SenderId', 'test message')   
@@ -65,8 +65,11 @@ $results = (new PolymorphicClassRedundancy('App\TwilioSms') )
         ->methodParameters('SenderId', 'test message') 
         ->failedResponses(false, null) // many can be added
         ->execute();
+```
 
-# To know which class proceseed the request run code this way : 
+
+To know which class proceseed the request run code this way : 
+```php
 $methodCall = new CallClassMethodWithRedundacy('App\TwilioSms','userId', 'apiKey' );
 
 $results = $methodCall->addRedundancyClasses(['App\NexmoSms', 'App\ArkeselSms'])
