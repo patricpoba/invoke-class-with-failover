@@ -4,48 +4,63 @@ This is used to provide redundancy for critical components of a software system.
 
 
 ## Example
+PROBLEM: Asuming you have the following classes which implement the same interface.
+You may decide to use one class (eg Twilio) to send sms. 
+
+But what if Twilio Class fails?
+SOLUTION: You may want the another class to be called automatically to process the request.
+This can be used to add redundancy to critical components of sofware whose failure may be costly
+
+NOTE: if a class throws an exception, it is deemed to have failed to process the method call.
+
+This is demostrated below.
+```php
+namespace App;
+interface SmsDriver class {
+    public sendSms($senderId, $apiKey);
+}
+
+class Twilio implements SmsDriver{
+    public function __construct($senderId){  
+        //  some logic here
+    }
+    public function sendSms($message) { 
+        // "Send sms with Twilio ... ";  
+    }
+}
+class Nexmo implements SmsDriver{
+    public function __construct($senderId){  
+        //  some logic here
+    }
+    public function sendSms($message) { 
+        // "Send sms with Nexmo ... ";  
+    }
+}
+class Arkesel implements SmsDriver{
+    public function __construct($senderId){ 
+        //  some logic here
+    }
+    public function sendSms( $message) { 
+        // "Send sms with Arkesel ... ";  
+    }
+}
+```
+
+The follow demonstrates how all the three classes can be used automatically
 ```php
 
-$pcrResponse = (new PolymorphicClassRedundancy('App\TwilioSms') ) 
-        ->constructorParameters('userId', 'apiKey')
-        ->addRedundancyClasses(['App\NexmoSms', 'App\ArkeselSms'])
-        ->callMethod('sendSms') //classMethod or static
-        ->methodParameters('SenderId', 'test message')
-        // ->mustNotThrowException() // false, null
-        ->failedResponses(false) // false, null
-        ->execute();
-
-$pcrResponse = (new CallClassMethodWithRedundacy('App\TwilioSms','userId', 'apiKey' ) )  
+$methodCall = new CallClassMethodWithRedundacy('App\TwilioSms','userId', 'apiKey' ) 
         ->addRedundancyClasses(['App\NexmoSms', 'App\ArkeselSms'])
         ->callMethod('sendSms', 'SenderId', 'test message')   
         ->execute();
 
-$pcrResponse 
-{
-    processedBy: 'App\Nexmo'
-    result : 'sms sent'
-}
-```
+# An alternate more expressive form would be done this way -
 
-```php
-https://www.php.net/manual/en/functions.arguments.php#functions.variable-arg-list
-function add($a, $b) {
-    return $a + $b;
-}
-echo add(...[1, 2])."\n";
-$a = [1, 2];
-echo add(...$a);
+$methodCall = (new PolymorphicClassRedundancy('App\TwilioSms') ) 
+        ->constructorParameters('userId', 'apiKey')
+        ->addRedundancyClasses(['App\NexmoSms', 'App\ArkeselSms']) 
+        ->methodParameters('SenderId', 'test message') 
+        ->failedResponses(false, null) // many can be added
+        ->execute();
 ```
-
-```php
-// $args = ['baz'=>'String', 'bar'=>123];
-foo(...$args); // equivalent to foo(123, 'String')
-```
-
-```php
-// Call the $foo->bar() method with 2 arguments
-$foo = new foo;
-call_user_func_array(array($foo, "bar"), array("three", "four"));
-
-https://www.php.net/manual/en/function.call-user-func-array(Example #1 call_user_func_array() example)
-```
+ 

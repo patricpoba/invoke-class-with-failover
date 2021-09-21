@@ -11,6 +11,13 @@ class CallClassMethodWithRedundacy
      */
     protected $queue;
 
+    /**
+     * Store class that was able to successfully process request
+     *
+     * @var [type]
+     */
+    protected $lastClassUsed;
+
     protected $class;
     
     protected $constructorParameters;
@@ -71,19 +78,24 @@ class CallClassMethodWithRedundacy
         return $this;
     }
 
+    public function getLastClassUsed()
+    {
+        return $this->lastClassUsed;
+    }
+
     public function execute()
     {
-        $response = null;
+        $result = null; 
 
         while(! $this->queue->isEmpty()){
             try {
-                $nextClass = $this->queue->pop() ;
+                $this->lastClassUsed = $nextClass = $this->queue->pop() ;
 
-                $response = (new $nextClass(...$this->constructorParameters) )
+                $result = (new $nextClass(...$this->constructorParameters) )
                     ->{$this->methodToCall}(...$this->methodParameters) ; 
 
                 // check if response indicates a failure
-                if ( in_array($response, $this->failedResponses, true) ) {
+                if ( in_array($result, $this->failedResponses, true) ) {
                     continue;
                 }else{
                     // method call was succesful, stop loop
@@ -98,7 +110,7 @@ class CallClassMethodWithRedundacy
             } 
         }
 
-        return $response;
+        return $result;
     }
 
 
