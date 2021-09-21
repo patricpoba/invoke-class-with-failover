@@ -16,6 +16,7 @@ NOTE: if a class throws an exception, it is deemed to have failed to process the
 This is demostrated below.
 ```php
 namespace App;
+
 interface SmsDriver class {
     public sendSms($senderId, $apiKey);
 }
@@ -28,6 +29,7 @@ class Twilio implements SmsDriver{
         // "Send sms with Twilio ... ";  
     }
 }
+
 class Nexmo implements SmsDriver{
     public function __construct($senderId){  
         //  some logic here
@@ -36,6 +38,7 @@ class Nexmo implements SmsDriver{
         // "Send sms with Nexmo ... ";  
     }
 }
+
 class Arkesel implements SmsDriver{
     public function __construct($senderId){ 
         //  some logic here
@@ -49,18 +52,28 @@ class Arkesel implements SmsDriver{
 The follow demonstrates how all the three classes can be used automatically
 ```php
 
-$methodCall = new CallClassMethodWithRedundacy('App\TwilioSms','userId', 'apiKey' ) 
+$results = (new CallClassMethodWithRedundacy('App\TwilioSms','userId', 'apiKey' )) 
         ->addRedundancyClasses(['App\NexmoSms', 'App\ArkeselSms'])
         ->callMethod('sendSms', 'SenderId', 'test message')   
         ->execute();
 
 # An alternate more expressive form would be done this way -
 
-$methodCall = (new PolymorphicClassRedundancy('App\TwilioSms') ) 
+$results = (new PolymorphicClassRedundancy('App\TwilioSms') ) 
         ->constructorParameters('userId', 'apiKey')
         ->addRedundancyClasses(['App\NexmoSms', 'App\ArkeselSms']) 
         ->methodParameters('SenderId', 'test message') 
         ->failedResponses(false, null) // many can be added
         ->execute();
+
+# To know which class proceseed the request run code this way : 
+$methodCall = new CallClassMethodWithRedundacy('App\TwilioSms','userId', 'apiKey' );
+
+$results = $methodCall->addRedundancyClasses(['App\NexmoSms', 'App\ArkeselSms'])
+        ->callMethod('sendSms', 'SenderId', 'test message')   
+        ->execute();
+
+// the code below returns the full class name eg 'PatricPoba\PolymorphicClassRedundancy\App\Twilio'
+$methodCall->getLastClassUsed(); 
 ```
  
