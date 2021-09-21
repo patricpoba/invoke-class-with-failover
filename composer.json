@@ -1,0 +1,42 @@
+{
+    "name": "patricpoba/polymorphic-class-redundancy",
+    "description": "This enables redundancy for polymorphic classes. This means when a class fails, it fallback to another class.",
+    "keywords": [
+        "patricpoba",
+        "polymorphic-class-redundancy"
+    ],
+    "homepage": "https://github.com/patricpoba/polymorphic-class-redundancy",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Patric Poba",
+            "email": "poba.dev@outlook.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.4|^8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "PatricPoba\\PolymorphicClassRedundancy\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PatricPoba\\PolymorphicClassRedundancy\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
