@@ -10,7 +10,7 @@ class Queue implements QueueInterface
      
     public function __construct()
     {
-        $this->data = [];
+        $this->dataStore = [];
     }
   
     public function size(): int
@@ -42,4 +42,8 @@ class Queue implements QueueInterface
         $this->dataStore[] = $newItem;
     } 
 
+    public function toArray() : array
+    {
+        return $this->dataStore;
+    }
 }

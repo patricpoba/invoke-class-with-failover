@@ -16,6 +16,6 @@ interface QueueInterface
     public function peek();
     public function pop();
     public function push($item): void;
-    // public function toArray(): array;
+    public function toArray(): array;
     public function size(): int;
 }

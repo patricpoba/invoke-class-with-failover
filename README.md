@@ -4,10 +4,10 @@ This is used to provide redundancy for critical components of a software system.
 
 
 # Example of Use Case
-**PROBLEM**: Asuming you have the following classes which implement the same interface.
-You may decide to use one class (eg Twilio) to send sms. 
+**PROBLEM**: Assuming you have three classes which implement the same interface for sending sms.
+You may decide to use one class (eg Twilio) to send sms at run time. 
 
-But what if Twilio Class fails?
+But what if that class (Twilio) fails?
 
 **SOLUTION**: You may want the another class to be called automatically to process the request.
 This can be used to add redundancy to critical components of sofware whose failure may be costly

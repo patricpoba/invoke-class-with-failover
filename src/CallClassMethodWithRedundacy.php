@@ -14,7 +14,7 @@ class CallClassMethodWithRedundacy
     /**
      * Store class that was able to successfully process request
      *
-     * @var [type]
+     * @var string
      */
     protected $lastClassUsed;
 
@@ -54,6 +54,11 @@ class CallClassMethodWithRedundacy
         $this->constructorParameters = $params;
         return $this;
     }
+
+    public function getConstructorParameters()
+    {
+        return $this->constructorParameters;
+    }
     
     public function callMethod(string $methodName, ...$methodParameters)
     {
@@ -66,6 +71,11 @@ class CallClassMethodWithRedundacy
         return $this;
     }
 
+    public function getCallMethod()
+    {
+        return $this->methodToCall;
+    }
+
     public function methodParameters(...$params)
     {
         $this->methodParameters = $params;
@@ -76,6 +86,11 @@ class CallClassMethodWithRedundacy
     {
         $this->failedResponses = $params;
         return $this;
+    }
+
+    public function getQueue()
+    {
+        return $this->queue;
     }
 
     public function getLastClassUsed()
