@@ -78,5 +78,8 @@ $results = $methodCall->addRedundancyClasses(['App\NexmoSms', 'App\ArkeselSms'])
 
 // the code below returns the full class name eg 'PatricPoba\PolymorphicClassRedundancy\App\Twilio'
 $methodCall->getLastClassUsed(); 
+
+TODO:
+Rename CallClassMethodWithRedundacy to InvokeClassWithRedundacy or InvokeClassWithBackup
 ```
  
