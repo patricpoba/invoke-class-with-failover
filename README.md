@@ -80,6 +80,6 @@ $results = $methodCall->addRedundancyClasses(['App\NexmoSms', 'App\ArkeselSms'])
 $methodCall->getLastClassUsed(); 
 
 TODO:
-Rename CallClassMethodWithRedundacy to InvokeClassWithRedundacy or InvokeClassWithBackup
+Rename CallClassMethodWithRedundacy to InvokeClassWithFailover or InvokeClassWithRedundacy or InvokeClassWithBackup
 ```
  
