@@ -1,4 +1,4 @@
-# Polymorphic Class Redundancy
+# InvokeClassWithRedundacy
 The package allows a single class to respond to a request with fallback to other classes (that adhere to the same interface)  in a sequential order.
 This is used to provide redundancy for critical components of a software system.
 
